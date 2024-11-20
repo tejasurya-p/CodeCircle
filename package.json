@@ -1,0 +1,28 @@
+{
+  "name": "codecircle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"nodemon src/app.js"
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tejasurya-p/CodeCircle.git"
+  },
+  "keywords": [
+    "nodejs",
+    "backend"
+  ],
+  "author": "Teja Surya Pilliboina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tejasurya-p/CodeCircle/issues"
+  },
+  "homepage": "https://github.com/tejasurya-p/CodeCircle#readme",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
