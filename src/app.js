@@ -1,25 +1,37 @@
 const express =require("express");
+const dbconnect =require('./database/db')
+
+const User = require("./models/user");
 
 const app=express();
 
 const PORT=3000;
 
-app.listen(PORT,()=>{console.log(`Running on PORT:${PORT}`)});
+dbconnect().then(()=>{
+    console.log('connected successfully')
+    app.listen(PORT,()=>{console.log(`Running on PORT:${PORT}`)});
+  }
+      
+  ).catch(
+      ()=>{
+          console.log('not connected')
+      }
+  );
 
-app.use("/",(req,res,next)=>{
+app.post('/signup',async (req,res)=>{
+    let user=new User({
+        firstName:"surya",
+        lastName:"teja",
+    })
     try{
-
-        throw new exception("hii");
-       
-        
-        
+        await user.save();
+        res.send('Success');
+    }catch(err){
+        res.status(403).send('Forbidden');
     }
-    catch{
-        res.send("something gone")
-    }
-    //res.send("Hi Buddy I Am Up And Running ")
+    
+    
+    
 })
 
-app.use("/main",(req,res)=>{
-    res.send("Hi Buddy I Am Up And Running at /test ")
-})
+
