@@ -23,6 +23,7 @@
   "homepage": "https://github.com/tejasurya-p/CodeCircle#readme",
   "dependencies": {
     "express": "^4.21.1",
-    "mongoose": "^8.8.4"
+    "mongoose": "^8.8.4",
+    "util": "^0.12.5"
   }
 }
