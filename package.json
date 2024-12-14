@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/tejasurya-p/CodeCircle#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.21.1",
     "mongoose": "^8.8.4",
     "util": "^0.12.5",
