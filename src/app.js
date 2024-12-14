@@ -28,7 +28,7 @@ app.post('/signup',async (req,res)=>{
         await user.save()
         res.send('Success');
     }catch(err){
-        res.status(403).send('Forbidden');
+        res.status(403).send('Forbidden:'+err);
     }
     
     
