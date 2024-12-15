@@ -1,12 +1,16 @@
 const express = require("express");
 const dbconnect = require("./database/db");
 const User = require("./models/user");
-const { validateSignUpData } = require("./utils/validate");
-const bcrypt = require("bcrypt");
+const userRouter = require("./routes/userRoute");
+const profileRouter = require("./routes/profile");
+const requestRouter = require("./routes/requestRouter");
+
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 const PORT = 3000;
 
@@ -21,49 +25,9 @@ dbconnect()
     console.log("not connected");
   });
 
-app.post("/signup", async (req, res) => {
-  try {
-    const { firstName, lastName, password, email } = req.body;
-    validateSignUpData(req);
-    let passwordHash = await bcrypt.hash(password, 10);
-
-    let user = new User({
-      firstName,
-      lastName,
-      password: passwordHash,
-      email,
-    });
-    await user.save();
-    res.send("Success");
-  } catch (err) {
-    res.status(403).send("Forbidden:" + err);
-  }
-});
-
-app.get("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const findUser = await User.find({ email: email });
-    if (findUser.length === 0) {
-      throw new Error("please enter correctr email");
-    }
-    let auth = await bcrypt.compare(password, findUser[0].password);
-    if (auth) {
-      res.send("Login Avipoyav ra chinna");
-    }
-  } catch (err) {
-    res.status(400).send("Bad Request" + err);
-  }
-});
-
-app.get("/feed", async (req, res) => {
-  try {
-    let users = await User.find({});
-    res.send(users);
-  } catch (err) {
-    res.status(404).send("Not Found");
-  }
-});
+app.use("/", userRouter);
+app.use("/", profileRouter);
+app.use("/", requestRouter);
 
 app.delete("/delete", async (req, res) => {
   try {
