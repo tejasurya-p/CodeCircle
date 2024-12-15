@@ -10,16 +10,16 @@ let userAuth = async (req, res, next) => {
     }
 
     if (authUser) {
-      let users = await User.find({});
-      if (!users) {
+      let user = await User.findById({ _id: authUser._id });
+      if (!user) {
         throw Error("no user ");
       }
 
-      req.users = users;
+      req.user = user;
     }
     next();
   } catch (err) {
-    res.status(400).send("invalid");
+    res.status(400).send("invalid" + err);
   }
 };
 

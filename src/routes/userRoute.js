@@ -48,4 +48,9 @@ userRoute.get("/login", async (req, res) => {
   }
 });
 
+userRoute.get("/logout", async (req, res) => {
+  res.cookie("token", null, { expires: new Date(Date.now()) });
+  res.send("Log Out");
+});
+
 module.exports = userRoute;

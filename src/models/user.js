@@ -53,7 +53,7 @@ const userSchema = mongoose.Schema(
 userSchema.methods.getJWT = async function () {
   let user = this;
   const userCokkie = jwt.sign({ _id: user._id }, "virat@123", {
-    expiresIn: "8s",
+    expiresIn: "7d",
   });
 
   return userCokkie;
