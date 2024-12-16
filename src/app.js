@@ -4,6 +4,7 @@ const User = require("./models/user");
 const userRouter = require("./routes/userRoute");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/requestRouter");
+const requestUserRouter = require("./routes/request");
 
 const cookieParser = require("cookie-parser");
 
@@ -28,6 +29,7 @@ dbconnect()
 app.use("/", userRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
+app.use("/", requestUserRouter);
 
 app.delete("/delete", async (req, res) => {
   try {
