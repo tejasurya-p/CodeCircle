@@ -1,6 +1,7 @@
 const express = require("express");
 const { userAuth } = require("../middlewares/userAuth");
 const { connectionRequestModel } = require("../models/connectionRequest");
+const User = require("../models/user");
 
 const requestUserRouter = express.Router();
 
@@ -44,6 +45,39 @@ requestUserRouter.get("/user/connections", userAuth, async (req, res) => {
 
     res.send(data);
   } catch (error) {
+    res.status(400).json({ message: "Something Went Wrong " + err });
+  }
+});
+
+requestUserRouter.get("/feed", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+    const page = req.query.page;
+    let limit = req.query.limit;
+    limit = limit > 50 ? 50 : limit;
+    const skip = (page - 1) * limit;
+
+    const connectionRequest = await connectionRequestModel.find({
+      $or: [{ toUserId: loggedInUser._id }, { fromUserId: loggedInUser._id }],
+    });
+
+    const blockedUsers = new Set();
+    connectionRequest.forEach((element) => {
+      blockedUsers.add(element.toUserId.toString());
+      blockedUsers.add(element.fromUserId.toString());
+      console.log(blockedUsers);
+    });
+    const feedUsers = await User.find({
+      $and: [
+        { _id: { $ne: loggedInUser._id } },
+        { _id: { $nin: Array.from(blockedUsers) } },
+      ],
+    })
+      .select("firstName lastName")
+      .skip(skip)
+      .limit(limit);
+    res.send(feedUsers);
+  } catch (err) {
     res.status(400).json({ message: "Something Went Wrong " + err });
   }
 });

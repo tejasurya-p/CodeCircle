@@ -8,6 +8,7 @@ const connectionRequestSchema = new Schema({
   },
   toUserId: {
     type: String,
+    ref: "User",
     required: true,
   },
   status: {
